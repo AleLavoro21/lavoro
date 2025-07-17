@@ -2,26 +2,41 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Prueba de Clic</title>
-</head>
-<body>
-  <h2>¡Gracias por hacer clic!</h2>
-  <p id="correo"></p>
-
+  <title>Prueba de Phishing</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
+    (function() {
+      emailjs.init("-7jPxBzHH3QyQFQd_"); // <-- Reemplaza con tu USER ID (public key)
+    })();
+
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
 
-    const email = getQueryParam("email");
+    window.onload = function() {
+      const email = getQueryParam("email");
+      const timestamp = new Date().toISOString();
 
-    if (email) {
-      document.getElementById("correo").innerText = `Correo detectado: ${email}`;
-      // Aquí puedes usar EmailJS o simplemente guardar manualmente lo que aparece
-    } else {
-      document.getElementById("correo").innerText = "No se detectó correo en el enlace.";
+      if (email) {
+        document.getElementById("correo").textContent = `Correo detectado: ${email}`;
+
+        emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID", {
+          email: email,
+          timestamp: timestamp
+        }).then(function(response) {
+          console.log("Correo enviado ✅", response.status, response.text);
+        }, function(error) {
+          console.error("Error al enviar el correo ❌", error);
+        });
+      } else {
+        document.getElementById("correo").textContent = "No se detectó ningún correo.";
+      }
     }
   </script>
+</head>
+<body>
+  <h2>Gracias por hacer clic</h2>
+  <p id="correo"></p>
 </body>
 </html>
