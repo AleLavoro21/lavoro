@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <title>Prueba de Phishing</title>
 
-  <!-- ✅ Carga el SDK v4 como script tradicional (NO module) -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- SDK v3 de EmailJS (compatible con GitHub Pages y sin módulos) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
   <script>
     window.addEventListener("load", function () {
-      // ✅ Inicializa el SDK con tu clave pública
-      emailjs.init({ publicKey: "-7jPxBzHH3QyQFQd_" });
+      emailjs.init("-7jPxBzHH3QyQFQd_"); // Tu Public Key
 
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
@@ -29,4 +28,15 @@
             console.log("✅ Correo enviado:", response.status, response.text);
           },
           function (error) {
-
+            console.error("❌ Error al enviar el correo:", error);
+          }
+        );
+      }
+    });
+  </script>
+</head>
+<body>
+  <h2>Gracias por hacer clic</h2>
+  <p id="correo"></p>
+</body>
+</html>
