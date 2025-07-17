@@ -6,24 +6,19 @@
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
     window.onload = function () {
-      // Inicializa EmailJS
-      emailjs.init("-7jPxBzHH3QyQFQd_");
+      emailjs.init("-7jPxBzHH3QyQFQd_"); // Tu Public Key (verificado)
 
-      // Función para obtener parámetros de la URL
-      function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-      }
-
-      // Obtiene el email desde la URL
-      const email = getQueryParam("email");
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get("email");
       const timestamp = new Date().toISOString();
 
-      // Muestra el correo en la página
-      if (email) {
-        document.getElementById("correo").textContent = `Correo detectado: ${email}`;
+      const mensaje = email
+        ? `Correo detectado: ${email}`
+        : "No se detectó ningún correo.";
 
-        // Envía los datos por EmailJS
+      document.getElementById("correo").textContent = mensaje;
+
+      if (email) {
         emailjs.send("service_tt6inyl", "template_53frre3", {
           email: email,
           timestamp: timestamp
@@ -32,11 +27,9 @@
             console.log("✅ Correo enviado:", response.status, response.text);
           },
           function (error) {
-            console.error("❌ Error al enviar el correo:", error.text || error);
+            console.error("❌ Error al enviar el correo:", JSON.stringify(error, null, 2));
           }
         );
-      } else {
-        document.getElementById("correo").textContent = "No se detectó ningún correo.";
       }
     };
   </script>
@@ -46,3 +39,4 @@
   <p id="correo"></p>
 </body>
 </html>
+
