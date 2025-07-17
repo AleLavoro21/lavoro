@@ -5,34 +5,40 @@
   <title>Prueba de Phishing</title>
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
-    (function() {
-      emailjs.init("-7jPxBzHH3QyQFQd_"); // <-- Reemplaza con tu USER ID (public key)
-    })();
+    window.onload = function () {
+      // Inicializa EmailJS
+      emailjs.init("-7jPxBzHH3QyQFQd_");
 
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
+      // Función para obtener parámetros de la URL
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
 
-    window.onload = function() {
+      // Obtiene el email desde la URL
       const email = getQueryParam("email");
       const timestamp = new Date().toISOString();
 
+      // Muestra el correo en la página
       if (email) {
         document.getElementById("correo").textContent = `Correo detectado: ${email}`;
 
+        // Envía los datos por EmailJS
         emailjs.send("service_tt6inyl", "template_53frre3", {
           email: email,
           timestamp: timestamp
-        }).then(function(response) {
-          console.log("Correo enviado ✅", response.status, response.text);
-        }, function(error) {
-          console.error("Error al enviar el correo ❌", error);
-        });
+        }).then(
+          function (response) {
+            console.log("✅ Correo enviado:", response.status, response.text);
+          },
+          function (error) {
+            console.error("❌ Error al enviar el correo:", error.text || error);
+          }
+        );
       } else {
         document.getElementById("correo").textContent = "No se detectó ningún correo.";
       }
-    }
+    };
   </script>
 </head>
 <body>
