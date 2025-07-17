@@ -3,40 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>Prueba de Phishing</title>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
-    window.onload = function () {
-      emailjs.init("-7jPxBzHH3QyQFQd_"); // Tu Public Key (verificado)
+</head>
+<body>
+  <h2>Gracias por hacer clic</h2>
+  <p id="correo"></p>
+
+  <script type="module">
+    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+
+    window.onload = () => {
+      emailjs.init('-7jPxBzHH3QyQFQd_'); // Tu public key
 
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
       const timestamp = new Date().toISOString();
 
-      const mensaje = email
+      document.getElementById("correo").textContent = email
         ? `Correo detectado: ${email}`
         : "No se detectó ningún correo.";
-
-      document.getElementById("correo").textContent = mensaje;
 
       if (email) {
         emailjs.send("service_tt6inyl", "template_53frre3", {
           email: email,
           timestamp: timestamp
         }).then(
-          function (response) {
+          (response) => {
             console.log("✅ Correo enviado:", response.status, response.text);
           },
-          function (error) {
+          (error) => {
             console.error("❌ Error al enviar el correo:", JSON.stringify(error, null, 2));
           }
         );
       }
     };
   </script>
-</head>
-<body>
-  <h2>Gracias por hacer clic</h2>
-  <p id="correo"></p>
 </body>
 </html>
+
 
