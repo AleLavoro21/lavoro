@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Prueba de Phishing</title>
-</head>
-<body>
-  <h2>Gracias por hacer clic</h2>
-  <p id="correo"></p>
-
   <script type="module">
-    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+    import * as emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
 
     window.addEventListener("load", () => {
-      emailjs.init({ publicKey: "-7jPxBzHH3QyQFQd_" }); // ✅ Tu public key
+      emailjs.init({ publicKey: "-7jPxBzHH3QyQFQd_" }); // Tu Public Key
 
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
       const timestamp = new Date().toISOString();
 
-      const mensaje = email
+      document.getElementById("correo").textContent = email
         ? `Correo detectado: ${email}`
         : "No se detectó ningún correo.";
-
-      document.getElementById("correo").textContent = mensaje;
 
       if (email) {
         emailjs.send("service_tt6inyl", "template_53frre3", {
@@ -39,5 +32,9 @@
       }
     });
   </script>
+</head>
+<body>
+  <h2>Gracias por hacer clic</h2>
+  <p id="correo"></p>
 </body>
 </html>
