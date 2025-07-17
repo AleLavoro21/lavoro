@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Prueba de Phishing</title>
-  <!-- ✅ SDK v4 compatible global (NO usar como módulo) -->
+
+  <!-- ✅ Carga el SDK v4 como script tradicional (NO module) -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <script>
     window.addEventListener("load", function () {
-      // ✅ Inicializar EmailJS
+      // ✅ Inicializa el SDK con tu clave pública
       emailjs.init({ publicKey: "-7jPxBzHH3QyQFQd_" });
 
-      // ✅ Obtener parámetros de la URL
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
       const timestamp = new Date().toISOString();
 
-      // ✅ Mostrar mensaje en la página
       document.getElementById("correo").textContent = email
         ? `Correo detectado: ${email}`
         : "No se detectó ningún correo.";
 
-      // ✅ Enviar email si se detectó el correo
       if (email) {
         emailjs.send("service_tt6inyl", "template_53frre3", {
           email: email,
@@ -30,15 +29,4 @@
             console.log("✅ Correo enviado:", response.status, response.text);
           },
           function (error) {
-            console.error("❌ Error al enviar el correo:", JSON.stringify(error, null, 2));
-          }
-        );
-      }
-    });
-  </script>
-</head>
-<body>
-  <h2>Gracias por hacer clic</h2>
-  <p id="correo"></p>
-</body>
-</html>
+
