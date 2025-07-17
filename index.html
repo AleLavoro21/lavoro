@@ -9,23 +9,25 @@
   <p id="correo"></p>
 
   <script type="module">
-    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
 
-    window.onload = () => {
-      emailjs.init('-7jPxBzHH3QyQFQd_'); // Tu public key
+    window.addEventListener("load", () => {
+      emailjs.init({ publicKey: "-7jPxBzHH3QyQFQd_" }); // ✅ Tu public key
 
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
       const timestamp = new Date().toISOString();
 
-      document.getElementById("correo").textContent = email
+      const mensaje = email
         ? `Correo detectado: ${email}`
         : "No se detectó ningún correo.";
 
+      document.getElementById("correo").textContent = mensaje;
+
       if (email) {
         emailjs.send("service_tt6inyl", "template_53frre3", {
-          email: email,
-          timestamp: timestamp
+          email,
+          timestamp
         }).then(
           (response) => {
             console.log("✅ Correo enviado:", response.status, response.text);
@@ -35,9 +37,7 @@
           }
         );
       }
-    };
+    });
   </script>
 </body>
 </html>
-
-
